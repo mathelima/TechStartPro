@@ -12,4 +12,6 @@ public interface ProductService {
 
     Product createProduct(Product product) throws DatabaseException;
 
+    Product updateProduct(Long id, Product product) throws DatabaseException;
+
 }

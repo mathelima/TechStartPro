@@ -43,4 +43,15 @@ public class ProductController {
         return new ResponseEntity<Product>(savedProduct, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Product> updatePerson(@PathVariable("id") Long id, @Valid @RequestBody Product product){
+        Product updatedProduct = null;
+        try{
+            updatedProduct = service.updateProduct(id, product);
+        }catch (DatabaseException e) {
+            return new ResponseEntity<Product>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
+    }
+
 }

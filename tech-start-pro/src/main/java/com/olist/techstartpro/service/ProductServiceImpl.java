@@ -30,4 +30,14 @@ public class ProductServiceImpl implements ProductService{
             throw new DatabaseException(e.getMessage());
         }
     }
+
+    @Override
+    public Product updateProduct(Long id, Product product) throws DatabaseException{
+        product.setId(id);
+        try{
+            return repository.save(product);
+        }catch (Exception e){
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 }
