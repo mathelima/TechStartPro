@@ -40,4 +40,13 @@ public class ProductServiceImpl implements ProductService{
             throw new DatabaseException(e.getMessage());
         }
     }
+
+    @Override
+    public void deleteProduct(Long id) throws DatabaseException{
+        try{
+            repository.delete(repository.findById(id).get());
+        }catch (Exception e){
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 }

@@ -54,4 +54,14 @@ public class ProductController {
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Long id) {
+        try {
+            service.deleteProduct(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch(DatabaseException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

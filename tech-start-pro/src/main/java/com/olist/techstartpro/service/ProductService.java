@@ -14,4 +14,5 @@ public interface ProductService {
 
     Product updateProduct(Long id, Product product) throws DatabaseException;
 
+    void deleteProduct(Long id) throws DatabaseException;
 }
