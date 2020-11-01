@@ -7,6 +7,7 @@ import com.olist.techstartpro.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,16 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> getProducts() {
         return Optional.of(repository.findAll())
                 .orElseThrow(() -> new ProductNotFoundException("No products found"));
+    }
+
+    @Override
+    public List<Product> getProductByField(Product product) throws ProductNotFoundException {
+        String name = product.getName();
+        String description = product.getDescription();
+        BigDecimal value = product.getValue();
+        String category = product.getCategory();
+        return Optional.ofNullable(repository.findByNameOrDescriptionOrValueOrCategory(name, description, value, category))
+                .orElseThrow(() -> new ProductNotFoundException("Product with this fields not found"));
     }
 
     @Override

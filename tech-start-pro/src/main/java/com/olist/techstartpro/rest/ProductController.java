@@ -32,6 +32,17 @@ public class ProductController {
         return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<Product>> getProductByField (@Valid @RequestBody Product product){
+        List<Product> products = null;
+        try {
+            products = service.getProductByField(product);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    }
+
     @PostMapping()
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
         Product savedProduct = null;

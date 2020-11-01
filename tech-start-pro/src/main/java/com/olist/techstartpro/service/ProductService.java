@@ -10,6 +10,8 @@ public interface ProductService {
 
     List<Product> getProducts() throws ProductNotFoundException;
 
+    List<Product> getProductByField(Product product) throws ProductNotFoundException;
+
     Product createProduct(Product product) throws DatabaseException;
 
     Product updateProduct(Long id, Product product) throws DatabaseException;
