@@ -32,5 +32,5 @@ public class Product {
     private BigDecimal value;
 
     @NotNull
-    private List<String> category;
+    private String category;
 }
