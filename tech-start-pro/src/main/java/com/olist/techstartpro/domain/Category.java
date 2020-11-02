@@ -5,8 +5,6 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,22 +14,12 @@ import java.util.List;
 @Table
 @Builder
 @Entity
-public class Product {
+public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
     @NotNull
     private String name;
-
-    @NotNull
-    private String description;
-
-    @NotNull
-    private BigDecimal value;
-
-    @NotNull
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Category> category;
 }
