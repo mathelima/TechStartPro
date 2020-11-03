@@ -1,0 +1,1 @@
+INSERT INTO Category(name) SELECT * FROM CSVREAD('database.csv');
