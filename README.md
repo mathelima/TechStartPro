@@ -3,7 +3,7 @@ Esse projeto é uma API Rest feita em Java utilizando Spring Boot que armazena d
 
 A API lê um arquivo CSV contido na pasta TechStartPro\tech-start-pro e importa para o banco de dados.
 
-O banco de dados utilizado foi o H2 e ele pode ser acessado através da url http://localhost:8080/h2-console/ com o projeto rodando.
+O banco de dados utilizado foi o H2 e ele pode ser acessado com o usuário root e password root através da url http://localhost:8080/h2-console/ com o projeto rodando.
 
 A API permite realizar um CRUD de produtos e cada uma das funcionalidades será explicada no tópico Execução.
 
@@ -35,7 +35,7 @@ Para visualizar um produto podemos filtrar por 4 campos (ou uma composição des
 	    "name": "",
 	    "description": "sofá amarelo",
 	    "value": "",
-	    "category": [1,3,4]
+	    "categoryId": [1,3,4]
     }
 
 
@@ -46,7 +46,7 @@ Um produto é criado através de um método Post para a url http://localhost:808
 	    "name": "sofá x",
 	    "description": "sofá amarelo",
 	    "value": 500.50,
-	    "category": [1,3,4]
+	    "categoryId": [1,3,4]
     }
 
 
@@ -57,7 +57,7 @@ A edição de um produto é feita através de um método Put para a url http://l
 	    "name": "sofá x",
 	    "description": "sofá branco",
 	    "value": 700.50,
-	    "category": [1,3,5]
+	    "categoryId": [1,3,5]
     }
 
 
