@@ -1,21 +1,16 @@
 package com.olist.techstartpro.rest;
 
-import com.olist.techstartpro.domain.Category;
 import com.olist.techstartpro.domain.Product;
-import com.olist.techstartpro.domain.ProductDTO;
 import com.olist.techstartpro.exception.DatabaseException;
 import com.olist.techstartpro.exception.ProductNotFoundException;
-import com.olist.techstartpro.repository.CategoryRepository;
 import com.olist.techstartpro.service.CategoryService;
 import com.olist.techstartpro.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,9 +21,6 @@ public class ProductController {
     private final ProductService productService;
 
     private final CategoryService categoryService;
-
-    @Autowired
-    CategoryRepository categoryRepository;
 
     @GetMapping
     public ResponseEntity<List<Product>> getProducts() {
@@ -43,12 +35,10 @@ public class ProductController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<Product>> getProductByField (@Valid @RequestBody ProductDTO product){
+    public ResponseEntity<List<Product>> getProductByField (@Valid @RequestBody Product product){
         List<Product> products = null;
-        Product persistentProduct = new Product();
-        persistentProduct = transformProductDTOIntoProduct(product);
         try {
-            products = productService.getProductByField(persistentProduct);
+            products = productService.getProductByField(product);
         } catch (ProductNotFoundException e) {
             return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);
         }
@@ -56,12 +46,10 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductDTO product) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
         Product savedProduct = null;
-        Product persistentProduct = new Product();
-        persistentProduct = transformProductDTOIntoProduct(product);
         try{
-            savedProduct = productService.createProduct(persistentProduct);
+            savedProduct = productService.createProduct(product);
         }catch(DatabaseException e){
             return new ResponseEntity<Product>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -69,12 +57,10 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Product> updatePerson(@PathVariable("id") Long id, @Valid @RequestBody ProductDTO product){
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @Valid @RequestBody Product product){
         Product updatedProduct = null;
-        Product persistentProduct = new Product();
-        persistentProduct = transformProductDTOIntoProduct(product);
         try{
-            updatedProduct = productService.updateProduct(id, persistentProduct);
+            updatedProduct = productService.updateProduct(id, product);
         }catch (DatabaseException e) {
             return new ResponseEntity<Product>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -90,17 +76,4 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    private Product transformProductDTOIntoProduct (ProductDTO productDTO){
-        Product product = new Product();
-        List<Category> categories = new ArrayList<Category>();
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setValue(productDTO.getValue());
-        for(Long categoryId : productDTO.getCategory()){
-            categories.add(categoryService.getCategory(categoryId)); }
-        product.setCategory(categories);
-        return product;
-    }
-
 }

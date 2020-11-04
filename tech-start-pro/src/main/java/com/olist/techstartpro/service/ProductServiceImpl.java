@@ -1,6 +1,5 @@
 package com.olist.techstartpro.service;
 
-import com.olist.techstartpro.domain.Category;
 import com.olist.techstartpro.domain.Product;
 import com.olist.techstartpro.exception.DatabaseException;
 import com.olist.techstartpro.exception.ProductNotFoundException;
@@ -8,8 +7,6 @@ import com.olist.techstartpro.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,15 +24,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> getProductByField(Product product) throws ProductNotFoundException {
-        String name = product.getName();
-        String description = product.getDescription();
-        BigDecimal value = product.getValue();
-        Long categoryId = product.getCategory().get(0).getId();
-        if (name.equals("") || description.equals("") || value == null || categoryId == null){
-            return Optional.ofNullable(repository.findByNameOrDescriptionOrValueOrCategoryId(name, description, value, categoryId))
-                    .orElseThrow(() -> new ProductNotFoundException("Product with this fields not found"));
-        }
-        else return Optional.ofNullable(repository.findByNameAndDescriptionAndValueAndCategoryId(name, description, value, categoryId))
+        return Optional.ofNullable(repository.findProductByFields(product))
                 .orElseThrow(() -> new ProductNotFoundException("Product with this fields not found"));
     }
 

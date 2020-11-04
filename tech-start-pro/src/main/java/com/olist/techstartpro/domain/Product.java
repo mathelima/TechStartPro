@@ -19,7 +19,7 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -32,6 +32,6 @@ public class Product {
     private BigDecimal value;
 
     @NotNull
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Category> category;
+    @ElementCollection
+    private List<Long> categoryId;
 }
